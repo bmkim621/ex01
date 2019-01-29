@@ -74,12 +74,19 @@ public class BoardDAOTest {
 	}
 	
 	//페이지 구현 테스트2
-	@Test
+	//@Test
 	public void testListCriteria() {
 		Criteria cri = new Criteria();
 		cri.setPage(2);
 		cri.setPerPageNum(20);
 		
 		dao.listCriteria(cri);
+	}
+	
+	//페이지 갯수
+	@Test
+	public void testTotalCount() {
+		int i = dao.totalCount();
+		System.out.println("게시물 총 갯수는 = " + i);
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.yi.domain.BoardVO;
 import com.yi.domain.Criteria;
+import com.yi.domain.SearchCriteria;
 
 @Repository
 public class BoardDaoImpl implements BoardDAO {
@@ -68,6 +69,24 @@ public class BoardDaoImpl implements BoardDAO {
 	public List<BoardVO> listCriteria(Criteria cri) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(namespace + ".listCriteria", cri);
+	}
+
+	@Override
+	public int totalCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace + ".totalCount");
+	}
+
+	@Override
+	public List<BoardVO> listSearch(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace + ".listSearch", cri);
+	}
+
+	@Override
+	public int searchTotalCount(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace + ".searchTotalCount", cri);
 	}
 
 }

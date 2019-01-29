@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yi.domain.BoardVO;
 import com.yi.domain.Criteria;
+import com.yi.domain.SearchCriteria;
 import com.yi.persistence.BoardDAO;
 
 //주입받기 위해서 Service에서는 @Service 붙이기
@@ -55,6 +56,25 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> listCriteria(Criteria cri) {
 		// TODO Auto-generated method stub
 		return dao.listCriteria(cri);
+	}
+
+	//게시물 총 갯수
+	@Override
+	public int totalCount() {
+		// TODO Auto-generated method stub
+		return dao.totalCount();
+	}
+
+	@Override
+	public List<BoardVO> listSearch(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return dao.listSearch(cri);
+	}
+
+	@Override
+	public int searchTotalCount(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return dao.searchTotalCount(cri);
 	}
 
 }

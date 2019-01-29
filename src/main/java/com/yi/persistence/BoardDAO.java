@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yi.domain.BoardVO;
 import com.yi.domain.Criteria;
+import com.yi.domain.SearchCriteria;
 
 public interface BoardDAO {
 	public void insert(BoardVO vo);
@@ -25,5 +26,11 @@ public interface BoardDAO {
 	
 	public List<BoardVO> listCriteria(Criteria cri);
 
+	//=============== 게시물 총 갯수 ====================
+	public int totalCount();
 	
+	//==================== 검색 ====================
+	public List<BoardVO> listSearch(SearchCriteria cri);
+	
+	public int searchTotalCount(SearchCriteria cri);
 }

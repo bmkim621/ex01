@@ -1,7 +1,7 @@
 package com.yi.domain;
 
 public class Criteria {
-	private int page;
+	private int page;		//선택한 페이지 번호
 	private int perPageNum;	//한 페이지 당 몇 개씩 읽을 것인지 결정하는 변수
 	
 	public Criteria() {

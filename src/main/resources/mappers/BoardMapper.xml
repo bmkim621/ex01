@@ -50,4 +50,48 @@
 		order by bno desc
 		limit #{pageStart}, #{perPageNum}
 	</select>
+	
+	<!-- 게시물 전체 갯수 -->
+	<select id="totalCount" resultType="int">
+		select count(bno) from tbl_board
+	</select>
+	
+	
+	<!-- 검색기능 구현 -->
+	<sql id="search">
+		<if test="searchType == 't'.toString()">
+			where title like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="searchType == 'c'.toString()">
+			where content like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="searchType == 'w'.toString()">
+			where writer like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="searchType == 'tc'.toString()">
+			where title like CONCAT('%', #{keyword}, '%') OR content like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="searchType == 'cw'.toString()">
+			where content like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="searchType == 'tcw'.toString()">
+			where title like CONCAT('%', #{keyword}, '%')
+			OR content like CONCAT('%', #{keyword}, '%')
+			OR writer like CONCAT('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
+	<!-- 검색 -->
+	<select id="listSearch" resultType="BoardVO">
+		select * from tbl_board
+		<include refid="search"></include>
+		order by bno desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<!-- 검색한 게시물의  전체 갯수 -->
+	<select id="searchTotalCount" resultType="int">
+		select count(bno) from tbl_board
+		<include refid="search"></include>
+	</select>
 </mapper>

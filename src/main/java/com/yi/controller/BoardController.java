@@ -56,11 +56,12 @@ public class BoardController {
 		//페이지 하단 부분
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(1024);	//totalCount어디에서? mapper에서 처리해야함.
+		pageMaker.setTotalCount(service.totalCount());	//totalCount어디에서? mapper에서 처리해야함.
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", pageMaker);
 	}
+	
 	
 	@RequestMapping(value = "register", method = RequestMethod.GET)
 	//게시글 등록
@@ -83,9 +84,12 @@ public class BoardController {
 		return "redirect:/board/listAll";
 	}
 	
+	
+	
+	
 	//글 읽기 => a태그 글 읽는 것은 get 방식
 	@RequestMapping(value = "read", method = RequestMethod.GET)
-	public void read(@RequestParam("bno") int bno, Model model) {
+	public void read(@RequestParam("bno") int bno, Criteria cri, Model model) {
 		//spring은 알아서 String -> int로 바꿔줌. 확실하게 하기 위해서 @RequestParam 붙이는 것이 좋음.
 		// 예) @RequestParam을 사용하면 bno 뒤에 값은 무조건 int로 받아야 함.(아니면 에러) board/read?bno=1
 		BoardVO vo = service.read(bno);
@@ -95,16 +99,42 @@ public class BoardController {
 		
 		//이 vo를 jsp로 전달해준다. => Model 사용한다.
 		model.addAttribute("boardVO", vo);
+		model.addAttribute("cri", cri);
 	}
+	
+	//글 읽기해서 ListAll 버튼 눌렀을 때
+	@RequestMapping(value = "readPage", method = RequestMethod.GET)
+	public void readPage(@RequestParam("bno") int bno, Criteria cri, Model model) {
+		logger.info("readPage ----- GET");
+		
+		BoardVO vo = service.read(bno);
+		service.increaseViewCnt(bno);
+		
+		model.addAttribute("boardVO", vo);
+		model.addAttribute("cri", cri);
+	}
+	
+	
 	
 	//글 삭제 => post 방식으로. 어떻게? 안보이는 form 태그에서 hidden으로 번호 실어서 보냄.
 	@RequestMapping(value = "remove", method = RequestMethod.POST)
-	public String remove(@RequestParam("bno") int bno) {
+	public String remove(@RequestParam("bno") int bno, Criteria cri) {
 		logger.info("remove ----- POST");
 		service.remove(bno);
 		
 		return "redirect:/board/listAll";
 	}
+	
+	//글 삭제한 뒤 페이지 이동하기.
+	@RequestMapping(value = "removePage", method = RequestMethod.POST)
+	public String removePage(@RequestParam("bno") int bno, Criteria cri) {
+		logger.info("removePage ----- POST");
+		logger.info("page ----- " + cri.getPage());
+		
+		return "redirect:/board/listPage?page=" + cri.getPage();
+	}
+	
+	
 	
 	//글 수정할 때 수정해야 할 부분 받아오기
 	@RequestMapping(value = "modify", method = RequestMethod.GET)
@@ -112,17 +142,41 @@ public class BoardController {
 		logger.info("modify ----- GET");
 		
 		BoardVO vo = service.read(bno);
+		
 		model.addAttribute("boardVO", vo);
 	}
 	
 	//글 수정하기
 	@RequestMapping(value = "modify", method = RequestMethod.POST)
-	public String modify(BoardVO vo, @RequestParam("bno") int bno) {
+	public String modify(BoardVO vo, @RequestParam("bno") int bno, Model model) {
 		logger.info("modify ----- POST");
 		logger.info("bno = " + bno);
 		service.modify(vo);
 		logger.info("vo = " + vo.toString());
 		
 		return "redirect:/board/listAll";
+	}
+	
+	//글 수정할 때 수정해야 할 부분 받아오기
+	@RequestMapping(value = "modifyPage", method = RequestMethod.GET)
+	public void modifyPage(@RequestParam("bno") int bno, Criteria cri, Model model) {
+		logger.info("modifyPage ----- GET");
+		
+		BoardVO vo = service.read(bno);
+			
+		model.addAttribute("boardVO", vo);
+		model.addAttribute("cri", cri);
+	}
+		
+	//글 수정하고 나서 페이지 있는 목록으로 돌아가기
+	@RequestMapping(value = "modifyPage", method = RequestMethod.POST)
+	public String modifyPage(BoardVO vo, @RequestParam("bno") int bno, Criteria cri, Model model) {
+		logger.info("modifyPage ----- POST");
+		logger.info("bno = " + bno);
+		logger.info("page = " + cri.getPage());
+		
+		service.modify(vo);
+
+		return "redirect:/board/readPage?page=" + cri.getPage() + "&bno=" + vo.getBno();
 	}
 }
