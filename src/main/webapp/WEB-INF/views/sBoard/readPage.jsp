@@ -32,10 +32,12 @@
 						<button type="submit" class="btn btn-danger" id="btnRemove">Remove</button>
 					</div>
 					
-					<!-- 삭제할 때 post 방식으로 보내기 위해서 번호 hidden으로 실어서 보냄, 페이지 번호도 같이 실어서 보내야 목록 눌렀을 때 그 페이지 다시 나올 수 있음 -->
+					<!-- 보내야할 것 : 글번호, 페이지번호, 키워드, 검색종류 -->
 					<form action="" method="post" id="f1">
-						<input type="hidden" name="bno" value="${boardVO.bno }" >
+						<input type="hidden" name="bno" value="${boardVO.bno }">
 						<input type="hidden" name="page" value="${cri.page }">
+						<input type="hidden" name="searchType" value="${cri.searchType }">
+						<input type="hidden" name="keyword" value="${cri.keyword }">
 					</form>
 			</div>
 		</div>
@@ -49,7 +51,7 @@
 //			location.href = "${pageContext.request.contextPath}/board/listPage";
 			
 			//form태그에 있는 값을 가져가고 싶으면? 그냥 get 방식으로 보내고, action의 위치를 listPage(이동하려는 주소값)로 넘김.
-			$("#f1").attr("action", "listPage");
+			$("#f1").attr("action", "list");
 			$("#f1").attr("method", "get");
 			$("#f1").submit();
 		})

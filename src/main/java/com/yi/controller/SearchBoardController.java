@@ -41,6 +41,10 @@ public class SearchBoardController {
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(service.searchTotalCount(cri)); // totalCount어디에서? mapper에서 처리해야함.
 
+		logger.info("list = " + list);
+		logger.info("page = " + pageMaker.getCri().getPage());
+		logger.info("cri = " + cri);
+		
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("cri", cri);
@@ -74,28 +78,55 @@ public class SearchBoardController {
 		BoardVO vo = service.read(bno);
 		service.increaseViewCnt(bno);
 		
+		logger.info("BoardVO = " + vo);
+		logger.info("cri = " + cri);
+		logger.info("page = " + cri.getPage());
+		 
+		model.addAttribute("boardVO", vo);
+		model.addAttribute("cri", cri);
+		
+	}
+	
+	//삭제
+	@RequestMapping(value = "removePage", method = RequestMethod.POST)
+	public String removePage(@RequestParam("bno") int bno, SearchCriteria cri) {
+		logger.info("removePage ----- POST");
+		logger.info("페이지번호 = " + cri.getPage());
+		logger.info("검색종류 = " + cri.getSearchType());
+		logger.info("검색어 = " + cri.getKeyword());
+		
+		service.remove(bno);
+		
+		return "redirect:/sBoard/list?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&keyword=" + cri.getKeyword();
+	}	
+	
+	
+	
+	//수정
+	//글 수정할 때 수정해야 할 부분 받아오기
+	@RequestMapping(value = "modifyPage", method = RequestMethod.GET)
+	public void modifyPage(@RequestParam("bno") int bno, SearchCriteria cri, Model model) {
+		logger.info("modifyPage ----- GET");
+		
+		BoardVO vo = service.read(bno);
+			
 		model.addAttribute("boardVO", vo);
 		model.addAttribute("cri", cri);
 	}
-	
-	//글 읽기 눌렀을 때 List로 이동하기
-	@RequestMapping(value = "listPage", method = RequestMethod.GET)
-	public void listPage(SearchCriteria cri, Model model) {
-		logger.info("listPage ----- GET");
-		List<BoardVO> list = service.listSearch(cri); //cri 넣기 위해서 Model 필요
 		
-		//페이지 하단 부분
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(service.searchTotalCount(cri));	//totalCount어디에서? mapper에서 처리해야함.
+	//글 수정하고 나서 페이지 있는 목록으로 돌아가기
+	@RequestMapping(value = "modifyPage", method = RequestMethod.POST)
+	public String modifyPage(BoardVO vo, @RequestParam("bno") int bno, SearchCriteria cri, Model model) {
+		logger.info("modifyPage ----- POST");
+		logger.info("bno = " + bno);
+		logger.info("페이지번호 = " + cri.getPage());
+		logger.info("검색종류 = " + cri.getSearchType());
+		logger.info("검색어 = " + cri.getKeyword());
 		
-		logger.info("list ----- "  + list);
-		logger.info("pageMaker ----- "  + pageMaker.toString());
-		logger.info("cri ----- "  + cri);
-		
-		model.addAttribute("list", list);
-		model.addAttribute("pageMaker", pageMaker);
-		model.addAttribute("cri", cri);
-	}	
+		service.modify(vo);
+
+		return "redirect:/sBoard/readPage?page=" + cri.getPage() + "&bno=" + vo.getBno() + "&page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&keyword=" + cri.getKeyword();
+	}
+
 	
 }
