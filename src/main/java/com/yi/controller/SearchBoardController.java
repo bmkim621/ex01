@@ -96,6 +96,7 @@ public class SearchBoardController {
 		logger.info("검색어 = " + cri.getKeyword());
 		
 		service.remove(bno);
+		// redirect 때는 cri 객체 전체를 전달할 수 없음. 하나씩 심어서 보내야함. ex) "page", cri.getPage()
 		model.addAttribute("keyword", cri.getKeyword());
 		
 		return "redirect:/sBoard/list?page=" + cri.getPage() + "&searchType=" + cri.getSearchType();
@@ -125,6 +126,7 @@ public class SearchBoardController {
 		logger.info("검색어 = " + cri.getKeyword());
 		
 		service.modify(vo);
+		// redirect 때는 cri 객체 전체를 전달할 수 없음. 하나씩 심어서 보내야함. ex) "page", cri.getPage()
 		model.addAttribute("keyword", cri.getKeyword());
 
 		return "redirect:/sBoard/readPage?page=" + cri.getPage() + "&bno=" + vo.getBno() + "&page=" + cri.getPage() + "&searchType=" + cri.getSearchType();
