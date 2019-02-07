@@ -15,6 +15,17 @@ CREATE TABLE book_ex.tbl_board(
 	primary key (bno)
 );
 
+-- table
+create table book_ex.tbl_member(
+	userid varchar(50) not null,
+	userpw varchar(50) not null,
+	username varchar(50) not null,
+	email varchar(100),
+	regdate timestamp default now(),
+	updatedate timestamp default now(),
+	primary key(userid)
+);
+
 -- ex02 프로젝트 댓글 테이블
 create table book_ex.tbl_reply(
 	rno int not null auto_increment,
