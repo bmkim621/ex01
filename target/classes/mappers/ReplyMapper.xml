@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.mapper.ReplyMapper">
+	<!-- resultType에 바로 클래스 이름 사용하기 위해서는 mabatis-config.xml에서 typeAlias 설정 필요함. -->
+	<select id="list" resultType="ReplyVO">
+		select * from tbl_reply
+		where bno = #{bno}
+		order by rno desc
+	</select>
+	
+	<insert id="create">
+		insert into tbl_reply (bno, replyer, replytext)
+		values (#{bno}, #{replyer}, #{replytext})
+	</insert>
+	
+	<update id="update">
+		update tbl_reply
+		set replytext = #{replytext}, updatedate = now()
+		where rno = #{rno}
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_reply
+		where rno = #{rno}
+	</delete>
+	
+	
+	<!-- #{pageStart}는 Criteria에서 함수인 getPageStart가 호출돼야하는데 el처럼 get은 떼고 첫번째 대문자는 소문자로 바꾼다. -->
+	<!-- 객체를 map에 넣게되면 cri 안에 있는 pageStart 사용해야 됨 => cri.pageStart -->
+	<select id="listPage" resultType="ReplyVO">
+		select * from tbl_reply
+		where bno = #{bno}
+		order by rno desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<!-- 게시물 전체 갯수 -->
+	<select id="totalCount" resultType="int">
+		select count(bno) from tbl_reply
+		where bno = #{bno}
+	</select>
+</mapper>
