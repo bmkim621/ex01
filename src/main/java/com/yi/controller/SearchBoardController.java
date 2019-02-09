@@ -33,7 +33,7 @@ public class SearchBoardController {
 	// url주소 : sBoard/list?page=10
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public void list(SearchCriteria cri, Model model) {
-		logger.info("list ----- GET");
+		logger.info("======> list ----- GET");
 		List<BoardVO> list = service.listSearch(cri); // cri 넣기 위해서 Model 필요
 
 		// 페이지 하단 부분
@@ -54,13 +54,13 @@ public class SearchBoardController {
 	//게시글 등록
 	@RequestMapping(value = "register", method = RequestMethod.GET)
 	public void registerGet() {
-		logger.info("register ----- GET");
+		logger.info("======> register ----- GET");
 	}
 	
 	
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public String registerPost(BoardVO vo, Model model) {
-		logger.info("register ----- POST");
+		logger.info("======> register ----- POST");
 		
 		service.regist(vo);
 		model.addAttribute("result", "success");
@@ -73,7 +73,7 @@ public class SearchBoardController {
 	//글 읽기
 	@RequestMapping(value = "readPage", method = RequestMethod.GET)
 	public void readPage(@RequestParam("bno") int bno, SearchCriteria cri, Model model) {
-		logger.info("readPage ----- GET");
+		logger.info("======> readPage ----- GET");
 		
 		BoardVO vo = service.read(bno);
 		service.increaseViewCnt(bno);
@@ -89,15 +89,17 @@ public class SearchBoardController {
 	
 	//삭제
 	@RequestMapping(value = "removePage", method = RequestMethod.POST)
-	public String removePage(@RequestParam("bno") int bno, SearchCriteria cri) {
-		logger.info("removePage ----- POST");
+	public String removePage(@RequestParam("bno") int bno, SearchCriteria cri, Model model) {
+		logger.info("======> removePage ----- POST");
 		logger.info("페이지번호 = " + cri.getPage());
 		logger.info("검색종류 = " + cri.getSearchType());
 		logger.info("검색어 = " + cri.getKeyword());
 		
 		service.remove(bno);
+		// redirect 때는 cri 객체 전체를 전달할 수 없음. 하나씩 심어서 보내야함. ex) "page", cri.getPage()
+		model.addAttribute("keyword", cri.getKeyword());
 		
-		return "redirect:/sBoard/list?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&keyword=" + cri.getKeyword();
+		return "redirect:/sBoard/list?page=" + cri.getPage() + "&searchType=" + cri.getSearchType();
 	}	
 	
 	
@@ -106,7 +108,7 @@ public class SearchBoardController {
 	//글 수정할 때 수정해야 할 부분 받아오기
 	@RequestMapping(value = "modifyPage", method = RequestMethod.GET)
 	public void modifyPage(@RequestParam("bno") int bno, SearchCriteria cri, Model model) {
-		logger.info("modifyPage ----- GET");
+		logger.info("======> modifyPage ----- GET");
 		
 		BoardVO vo = service.read(bno);
 			
@@ -117,15 +119,17 @@ public class SearchBoardController {
 	//글 수정하고 나서 페이지 있는 목록으로 돌아가기
 	@RequestMapping(value = "modifyPage", method = RequestMethod.POST)
 	public String modifyPage(BoardVO vo, @RequestParam("bno") int bno, SearchCriteria cri, Model model) {
-		logger.info("modifyPage ----- POST");
+		logger.info("======> modifyPage ----- POST");
 		logger.info("bno = " + bno);
 		logger.info("페이지번호 = " + cri.getPage());
 		logger.info("검색종류 = " + cri.getSearchType());
 		logger.info("검색어 = " + cri.getKeyword());
 		
 		service.modify(vo);
+		// redirect 때는 cri 객체 전체를 전달할 수 없음. 하나씩 심어서 보내야함. ex) "page", cri.getPage()
+		model.addAttribute("keyword", cri.getKeyword());
 
-		return "redirect:/sBoard/readPage?page=" + cri.getPage() + "&bno=" + vo.getBno() + "&page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&keyword=" + cri.getKeyword();
+		return "redirect:/sBoard/readPage?page=" + cri.getPage() + "&bno=" + vo.getBno() + "&page=" + cri.getPage() + "&searchType=" + cri.getSearchType();
 	}
 
 	

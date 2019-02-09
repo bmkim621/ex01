@@ -15,7 +15,27 @@ CREATE TABLE book_ex.tbl_board(
 	primary key (bno)
 );
 
-select * from book_ex.tbl_board;
+-- table
+create table book_ex.tbl_member(
+	userid varchar(50) not null,
+	userpw varchar(50) not null,
+	username varchar(50) not null,
+	email varchar(100),
+	regdate timestamp default now(),
+	updatedate timestamp default now(),
+	primary key(userid)
+);
 
-insert into book_ex.tbl_board (title , content, writer)
-(select title , content, writer from book_ex.tbl_board);
+-- ex02 프로젝트 댓글 테이블
+create table book_ex.tbl_reply(
+	rno int not null auto_increment,
+	bno int not null default 0,
+	replytext varchar(1000) not null,
+	replyer varchar(50) not null,
+	regdate timestamp not null default now(),
+	updatedate timestamp not null default now(),
+	primary key (rno)
+);
+
+-- tbl_reply에 외래키 추가
+alter table book_ex.tbl_reply add constraint fk_board foreign key (bno) references tbl_board(bno);
