@@ -17,4 +17,7 @@ public interface ReplyDAO {
 	public List<ReplyVO> listPage(Criteria cri, int bno);
 	
 	public int totalCount(int bno);
+	
+	//rno를 통해 bno를 가지고온다.
+	public ReplyVO selectByRno(int rno);
 }

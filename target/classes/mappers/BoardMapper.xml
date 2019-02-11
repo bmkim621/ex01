@@ -94,4 +94,11 @@
 		select count(bno) from tbl_board
 		<include refid="search"></include>
 	</select>
+	
+	<!-- 글제목 옆에 댓글 수 -->
+	<update id="updateReplyCnt">
+		update tbl_board
+		set replycnt = replycnt + #{amount}
+		where bno = #{bno}
+	</update>
 </mapper>

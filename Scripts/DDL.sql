@@ -4,8 +4,10 @@ DROP SCHEMA IF EXISTS book_ex;
 -- coffee_management
 CREATE SCHEMA book_ex;
 
+use book_ex;
+
 -- table
-CREATE TABLE book_ex.tbl_board(
+CREATE TABLE tbl_board(
 	bno int not null auto_increment,
 	title varchar(200) not null,
 	content text null,
@@ -16,7 +18,7 @@ CREATE TABLE book_ex.tbl_board(
 );
 
 -- table
-create table book_ex.tbl_member(
+create table tbl_member(
 	userid varchar(50) not null,
 	userpw varchar(50) not null,
 	username varchar(50) not null,
@@ -27,7 +29,7 @@ create table book_ex.tbl_member(
 );
 
 -- ex02 프로젝트 댓글 테이블
-create table book_ex.tbl_reply(
+create table tbl_reply(
 	rno int not null auto_increment,
 	bno int not null default 0,
 	replytext varchar(1000) not null,
@@ -38,4 +40,12 @@ create table book_ex.tbl_reply(
 );
 
 -- tbl_reply에 외래키 추가
-alter table book_ex.tbl_reply add constraint fk_board foreign key (bno) references tbl_board(bno);
+alter table tbl_reply add constraint fk_board foreign key (bno) references tbl_board(bno);
+
+-- 글 제목 옆에 나오는 댓글 수
+alter table tbl_board add column replycnt int default 0;
+
+-- 댓글 수 일치시키기
+update tbl_board set replycnt = (select count(rno) from tbl_reply where bno = tbl_board.bno);
+-- 댓글 테스트 확인
+select * from tbl_board order by bno desc;

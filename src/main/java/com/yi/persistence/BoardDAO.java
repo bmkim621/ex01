@@ -33,4 +33,7 @@ public interface BoardDAO {
 	public List<BoardVO> listSearch(SearchCriteria cri);
 	
 	public int searchTotalCount(SearchCriteria cri);
+	
+	//댓글 작성 시 글제목 옆에 댓글 수도 같이 증가되도록
+	public void updateReplyCnt(int bno, int amount);
 }

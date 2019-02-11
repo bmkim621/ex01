@@ -41,4 +41,10 @@
 		select count(bno) from tbl_reply
 		where bno = #{bno}
 	</select>
+	
+	<!-- rno를 통해 bno를 알아낸다. -->
+	<select id="selectByRno" resultType="ReplyVO">
+		select * from tbl_reply
+		where rno = #{rno}
+	</select>
 </mapper>

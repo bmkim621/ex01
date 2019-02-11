@@ -3,6 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 
 <section class="content">
+	<p style='color:red;'>${boardVO.replycnt }</p>
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="box">
@@ -67,7 +68,7 @@
 			
 			<ul class="timeline">
 				<li class="time-label" id="repliesDiv">
-					<span class="bg-green">Replies List</span>
+					<span class="bg-green">Replies List<span id="replycnt"></span></span>
 				</li>
 			</ul>
 			
@@ -155,7 +156,9 @@
 				
 				$(".timeline").append(result);
 				
-
+				//댓글 추가 할 때 Replies List 옆에도 댓글 수 증가
+				$("#replycnt").text("["+json.replycnt+"]");
+				
 				//pagination
 				//새로고침 될 때 안에 있는 내용 날린다. => 댓글 작성 성공하면 다시 getPageList 호출하기 때문에
 			 	$("#pagination").empty();
@@ -246,9 +249,11 @@
 					console.log(json);	
 						
 					if(json == "success"){
-						alert("등록하였습니다.");		
+						alert("등록하였습니다.");
 						//등록한 후 댓글창 새로고침되도록 한다.
 						getPageList(1);
+						
+						
 						//작성 후 내용 비우기
 						$("#newReplyWriter").val("");
 						$("#newReplyText").val("");

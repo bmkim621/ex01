@@ -18,4 +18,5 @@ public interface ReplyService {
 	public List<ReplyVO> listPage(Criteria cri, int bno);
 	
 	public int totalCount(int bno);
+	
 }

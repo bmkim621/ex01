@@ -158,6 +158,30 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.5.4</version>
 		</dependency>
+		
+		<dependency>
+    		<groupId>org.springframework</groupId>	
+    		<artifactId>spring-tx</artifactId>	<!-- 스프링 AOP 트랜잭션 -->
+   		 <version>4.3.2.RELEASE</version>	<!-- 스프링 버전과 동일해야함 -->
+		</dependency>
+		
+		<dependency>
+   			<groupId>org.springframework</groupId>
+   			<artifactId>spring-aop</artifactId>	<!-- 스프링 AOP -->
+    		<version>4.3.2.RELEASE</version>	<!-- 스프링 버전과 동일해야함 -->
+		</dependency>
+		
+		<dependency>
+		    <groupId>aspectj</groupId>
+		    <artifactId>aspectjrt</artifactId>
+		    <version>1.5.4</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>aspectj</groupId>
+		    <artifactId>aspectjweaver</artifactId>
+		    <version>1.5.4</version>
+		</dependency>
 					    
 		<!-- 필요한 라이브러리 추가 끝 -->        
 	</dependencies>

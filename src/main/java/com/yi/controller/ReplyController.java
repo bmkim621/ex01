@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yi.domain.BoardVO;
 import com.yi.domain.Criteria;
 import com.yi.domain.PageMaker;
 import com.yi.domain.ReplyVO;
+import com.yi.service.BoardService;
 import com.yi.service.ReplyService;
 
 //RestController : 값만 주고받음
@@ -29,6 +31,9 @@ public class ReplyController {
 	
 	@Autowired
 	private ReplyService service;
+	
+	@Autowired
+	private BoardService bService;
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	//@RequestBody : RestController에서 post로 받기 위해서는 @RequestBody가 필요함.
@@ -74,11 +79,17 @@ public class ReplyController {
 			int count = service.totalCount(bno);
 			pageMaker.setTotalCount(count);
 			
+			//댓글 수
+			BoardVO bVO = bService.read(bno);
+			
+			System.out.println(bVO.getReplycnt());
 			//그냥 Map = new Hashmap<> 사용하면 됨.
 			//댓글에 보이는 list정보와 페이지 정보가 같이 넘어가야되니까 map 사용해야 함.
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("list", list);
 			map.put("pageMaker", pageMaker);
+			//댓글 수 가지고오기
+			map.put("replycnt", bVO.getReplycnt());
 			
 			entity = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 			

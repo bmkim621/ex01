@@ -45,7 +45,10 @@
 								      	<td>${boardVO.bno }</td>
 								      	<!-- 타이틀 눌렀을 때 상세정보 보기로 넘어가기 위해서 a태그 필요 -->
 								      	<!-- 해당 글 읽기위한 글번호 bno와 Go List 버튼을 눌렀을 때 해당 페이지로 이동하기 위해서 페이지 번호 page 같이 실어서 보내야 함 -->
-								      	<td><a href='${pageContext.request.contextPath}/sBoard/readPage?bno=${boardVO.bno }&page=${pageMaker.cri.page }&searchType=${cri.searchType }&keyword=${cri.keyword }'>${boardVO.title }</a></td>
+								      	<td>
+									      	<a href='${pageContext.request.contextPath}/sBoard/readPage?bno=${boardVO.bno }&page=${pageMaker.cri.page }&searchType=${cri.searchType }&keyword=${cri.keyword }'>${boardVO.title }</a>
+									      	<strong>[${boardVO.replycnt }]</strong>
+								      	</td>
 								      	<td>${boardVO.writer }</td>
 								      	<td><fmt:formatDate value="${boardVO.regdate }" pattern="yyyy-MM-dd HH:mm"/></td>  
 								      	<td><span class='badge bg-blue'>${boardVO.viewcnt }</span></td>
