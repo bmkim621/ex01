@@ -23,6 +23,16 @@
 	
 	<context:component-scan base-package="com.yi.controller" />
 	
+	<!-- 업로드 시 파일 크기 제한(id 틀리면 안됨) -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"></beans:property>	<!-- 파일 최대 업로드 크기 10MB -->
+	</beans:bean>
+	
+	<!-- 외부 파일 업로드 경로(여러군데에서 쓸거니까 servlet-context.xml에서 beans 사용함) -->
+	<beans:bean id="uploadPath" class="java.lang.String">
+		<beans:constructor-arg value="c:/zzz/upload"></beans:constructor-arg>
+	</beans:bean>
+	
 	
 	
 </beans:beans>

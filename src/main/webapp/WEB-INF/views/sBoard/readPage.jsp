@@ -1,9 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/header.jsp" %>
+
+<style>
+	div.item{
+		width: 100px;
+		float: left;
+		margin: 5px;
+	}
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 
 <section class="content">
-	<p style='color:red;'>${boardVO.replycnt }</p>
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="box">
@@ -25,7 +33,29 @@
 							<label>Writer</label>
 							<input type="text" name="writer" class="form-control" placeholder="Enter Writer" value="${boardVO.writer }" readonly="readonly">
 						</div>
+						
+						<div class="form-group">
+							<c:forEach var="file" items="${boardVO.files }">
+								<div class="item">
+									<img src="displayFile?filename=${file }">
+								</div>
+							</c:forEach>
+						</div>
 					</div>
+					
+					<!-- 이미지 감싸는 div 조절 -->
+					<script>
+						//image의 크기를 구하여 div.item의 크기 조정 [
+						$(".item").each(function(i, obj){
+							var img = new Image();
+							img.onload = function(){  
+								$(obj).css("width", this.width);
+							}
+							img.src = $(obj).find("img").attr("src");
+							// ]
+						})
+					</script>
+					
 						
 					<!-- box-footer부분 -->
 					<div class="box-footer">
@@ -39,7 +69,7 @@
 						<input type="hidden" name="bno" value="${boardVO.bno }">
 						<input type="hidden" name="page" value="${cri.page }">
 						<input type="hidden" name="searchType" value="${cri.searchType }">
-						<input type="hidden" name="keyword" value="${cri.keyword }">
+						<input type="hidden" name="keyword" value="${cri.keyword }">						
 					</form>
 			</div>
 		</div>
@@ -250,6 +280,8 @@
 						
 					if(json == "success"){
 						alert("등록하였습니다.");
+						
+						
 						//등록한 후 댓글창 새로고침되도록 한다.
 						getPageList(1);
 						

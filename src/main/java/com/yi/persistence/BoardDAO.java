@@ -36,4 +36,18 @@ public interface BoardDAO {
 	
 	//댓글 작성 시 글제목 옆에 댓글 수도 같이 증가되도록
 	public void updateReplyCnt(int bno, int amount);
+	
+	//첨부파일
+	public void addAttach(String fullname);
+	
+	//bno에 해당하는 첨부파일 가지고오기
+	public List<String> getAttach(int bno);
+	
+	//첨부파일 삭제하기
+	public void delAttach(int bno);
+	
+	//이름에 해당하는 파일 삭제하기
+	public void deleteAttachByFullName(int bno, String fullname);
+	
+	public void addAttachByBno(String fullname, int bno);
 }

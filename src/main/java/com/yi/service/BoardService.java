@@ -12,6 +12,8 @@ public interface BoardService {
 	public BoardVO read(int bno);
 	
 	public void modify(BoardVO vo);
+	//삭제하고 싶은 파일이 담겨져 있음
+	public void modifyFile(BoardVO vo, String[] delFiles, List<String> addImages);
 	
 	public void remove(int bno);
 	

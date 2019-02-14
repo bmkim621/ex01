@@ -101,4 +101,34 @@
 		set replycnt = replycnt + #{amount}
 		where bno = #{bno}
 	</update>
+	
+	<!-- 첨부파일 -->
+	<insert id="addAttach">
+		insert into tbl_attach(fullname, bno) values (#{fullname}, LAST_INSERT_ID())
+	</insert>
+	
+	<!-- 파일 가지고오기 -->
+	<select id="getAttach" resultType="String">
+		select fullname from tbl_attach
+		where bno = #{bno}
+		order by regdate
+	</select>
+	
+	<!-- 파일 삭제 -->
+	<delete id="delAttach">
+		delete from tbl_attach
+		where bno = #{bno}
+	</delete>
+	
+	<!-- 파일이름에 해당하는 파일 삭제 -->
+	<delete id="deleteAttachByFullName">
+		delete from tbl_attach
+		where bno = #{bno} and fullname = #{fullname}
+	</delete>
+	
+	<!-- 수정화면에서 새로운 파일 추가할 때 -->
+	<!-- 기존에 addAttach하면 last_insert_id가 필요한데 수정 시에는 모름. 그렇게 때문에 새로 만들어 준 것 -->
+	<insert id="addAttachByBno">
+		insert into tbl_attach(fullname, bno) values (#{fullname}, #{bno})
+	</insert>
 </mapper>

@@ -101,4 +101,42 @@ public class BoardDaoImpl implements BoardDAO {
 		sqlSession.update(namespace + ".updateReplyCnt", map);
 	}
 
+	@Override
+	public void addAttach(String fullname) {
+		// TODO Auto-generated method stub
+		sqlSession.insert(namespace + ".addAttach", fullname);
+	}
+
+	@Override
+	public List<String> getAttach(int bno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace + ".getAttach", bno);
+	}
+
+	@Override
+	public void delAttach(int bno) {
+		// TODO Auto-generated method stub
+		sqlSession.delete(namespace + ".delAttach", bno);
+	}
+
+	@Override
+	public void deleteAttachByFullName(int bno, String fullname) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("bno", bno);
+		map.put("fullname", fullname);
+		
+		sqlSession.delete(namespace + ".deleteAttachByFullName", map);
+	}
+
+	@Override
+	public void addAttachByBno(String fullname, int bno) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("fullname", fullname);
+		map.put("bno", bno);
+		
+		sqlSession.insert(namespace + ".addAttachByBno", map);
+	}
+
 }

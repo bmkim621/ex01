@@ -49,3 +49,15 @@ alter table tbl_board add column replycnt int default 0;
 update tbl_board set replycnt = (select count(rno) from tbl_reply where bno = tbl_board.bno);
 -- 댓글 테스트 확인
 select * from tbl_board order by bno desc;
+
+
+-- 파일 업로드 관련
+create table tbl_attach(
+	fullName varchar(150) not null,
+	bno int not null,
+	regdate timestamp default now(),
+	primary key (fullName)
+);
+
+alter table tbl_attach add constraint fk_board_attach
+foreign key (bno) references tbl_board (bno);

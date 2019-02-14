@@ -8,8 +8,9 @@
 				<div class="box-header with-border">
 					<h3 class="box-title">REGISTER NEW BOARD</h3>
 				</div>
-	
-					<form role="form" method="post" action="register">
+					
+					<!-- 첨부파일 사용할 때는 반드시 enctype -->
+					<form role="form" method="post" action="register" enctype="multipart/form-data">
 						<div class='box-body'>
 							<div class="form-group">
 								<label>Title</label>
@@ -24,6 +25,12 @@
 							<div class="form-group">
 								<label>Writer</label>
 								<input type="text" name="writer" class="form-control" placeholder="Enter Writer">
+							</div>
+							
+							<!-- 첨부파일 들어갈 곳 -->
+							<div class="form-group">
+								<label>Image File</label>
+								<input type="file" name="imageFiles" class="form-control" placeholder="이미지를 선택하세요" multiple="multiple">
 							</div>
 						</div>
 						

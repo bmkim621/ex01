@@ -1,6 +1,8 @@
 package com.yi.domain;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class BoardVO {
 	private int bno;
@@ -10,12 +12,14 @@ public class BoardVO {
 	private Date regdate;
 	private int viewcnt;
 	private int replycnt;
+	private List<String> files;	//첨부파일
 	
 	public BoardVO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BoardVO(int bno, String title, String content, String writer, Date regdate, int viewcnt, int replycnt) {
+	public BoardVO(int bno, String title, String content, String writer, Date regdate, int viewcnt, int replycnt,
+			List<String> files) {
 		this.bno = bno;
 		this.title = title;
 		this.content = content;
@@ -23,7 +27,10 @@ public class BoardVO {
 		this.regdate = regdate;
 		this.viewcnt = viewcnt;
 		this.replycnt = replycnt;
+		this.files = files;
 	}
+
+
 
 	public int getBno() {
 		return bno;
@@ -81,10 +88,19 @@ public class BoardVO {
 		this.replycnt = replycnt;
 	}
 
+	public List<String> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<String> files) {
+		this.files = files;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("BoardVO [bno=%s, title=%s, content=%s, writer=%s, regdate=%s, viewcnt=%s, replycnt=%s]",
-				bno, title, content, writer, regdate, viewcnt, replycnt);
+		return String.format(
+				"BoardVO [bno=%s, title=%s, content=%s, writer=%s, regdate=%s, viewcnt=%s, replycnt=%s, files=%s]", bno,
+				title, content, writer, regdate, viewcnt, replycnt, files);
 	}
 	
 }
