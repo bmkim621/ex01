@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
    
 <!DOCTYPE html>
 <html>
@@ -28,8 +29,8 @@
     <![endif]-->
     
   </head>
-      <!-- jQuery 2.1.4 -->
-    <script src="${pageContext.request.contextPath }/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+      <!-- jQuery  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     
   <body class="skin-blue sidebar-mini">
     <div class="wrapper">
@@ -274,7 +275,15 @@
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <!-- 로그인 시에는 Sign out, 로그인 안됐을 경우 Sign in으로 바꾸기, session에 저장된 key이름이 login -->
+                      <c:if test="${login != null }">
+                      	<a href="${pageContext.request.contextPath }/user/logout" class="btn btn-default btn-flat">Sign out</a>
+                      </c:if>
+                      <c:if test="${login == null }">
+                      	<a href="${pageContext.request.contextPath }/user/login" class="btn btn-default btn-flat">Sign in</a>
+                      </c:if>
+                      	
+                      
                     </div>
                   </li>
                 </ul>

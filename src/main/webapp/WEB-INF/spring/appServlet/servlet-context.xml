@@ -33,6 +33,25 @@
 		<beans:constructor-arg value="c:/zzz/upload"></beans:constructor-arg>
 	</beans:bean>
 	
+	<!-- intercept 사용하기 -->
+	<beans:bean id="loginInterceptor" class="com.yi.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="AuthInterceptor" class="com.yi.interceptor.AuthInterceptor"></beans:bean>
 	
+	<!-- 클래스 intercept 걸기 -->
+	<interceptors>
+		<interceptor>
+			<!-- intercept 사용할 대상 -->
+			<mapping path="/user/loginPost"/>
+			<!-- 어떤 interceptor 사용할건지 -->
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/sBoard/register"/>
+			<mapping path="/sBoard/modifyPage"/>
+			<mapping path="/sBoard/readPage"/>
+			<beans:ref bean="AuthInterceptor"/>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>
